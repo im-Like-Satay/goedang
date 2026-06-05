@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"os/exec"
+	"runtime"
 	"strconv"
 
 	"github.com/olekukonko/tablewriter"
@@ -41,7 +43,7 @@ func LihatBarang(db *sql.DB) error {
 	}
 
 	if !adaData {
-		fmt.Println("(Gudang masih kosong, silakan tambah barang terlebih dahulu)")
+		fmt.Println("(Wirehouse is emty)")
 	}
 	fmt.Println()
 
@@ -54,4 +56,17 @@ func HapusBarang(db *sql.DB, id string) error {
 	sql := "DELETE FROM barang WHERE id = ?"
 	_, err := db.Exec(sql, id)
 	return err
+}
+
+func ClearTerminal() {
+	var cmd *exec.Cmd
+
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "cls")
+	} else {
+		cmd = exec.Command("clear")
+	}
+
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }

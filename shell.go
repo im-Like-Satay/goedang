@@ -43,7 +43,7 @@ func Shell() {
 
 		case "add":
 			if len(args) < 4 {
-				fmt.Println("Format salah. Gunakan: tambah [id] [nama] [stok]")
+				fmt.Println("Wrong fromat. Use: add [id] [nama] [stok]")
 				continue
 			}
 			id := args[1]
@@ -52,15 +52,15 @@ func Shell() {
 
 			_, err := fmt.Sscanf(args[3], "%d", &stok)
 			if err != nil {
-				fmt.Println("Eror: Stok harus angka.")
+				fmt.Println("Eror: Stock must be number.")
 				continue
 			}
 
 			err = TambahBarang(db, id, nama, stok)
 			if err != nil {
-				fmt.Println("Eror: Gagal menyimpan data.")
+				fmt.Println("Eror: Failed save data.")
 			} else {
-				fmt.Println("Sukses menambahkan barang.")
+				fmt.Println("Success added item.")
 			}
 
 		case "delete":
@@ -70,8 +70,11 @@ func Shell() {
 				fmt.Printf("error : %v \n", err)
 			}
 
+		case "clear":
+			ClearTerminal()
+
 		default:
-			fmt.Printf("Perintah '%s' tidak dikenal.\n", perintah)
+			fmt.Printf("Unknown command `%s'.\n", perintah)
 		}
 
 		if err := scanner.Err(); err != nil {
