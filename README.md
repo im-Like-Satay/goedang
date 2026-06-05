@@ -1,4 +1,4 @@
-### Godang
+### Goedang
 
 ## Overview
 Godang is a CLI-based program for managing goods in a warehouse or shop.
