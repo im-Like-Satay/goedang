@@ -6,6 +6,7 @@ import (
 	"goedang/db"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -36,38 +37,46 @@ func Shell() {
 			return
 
 		case "show":
-			err := LihatBarang(db)
+			err := ShowItems(db)
 			if err != nil {
-				fmt.Printf("Eror: %v\n", err)
+				fmt.Printf("Eror:\n %v \n", err)
 			}
 
 		case "add":
 			if len(args) < 4 {
-				fmt.Println("Wrong fromat. Use: add [id] [nama] [stok]")
+				fmt.Println("Wrong fromat. Use: add [name] [stok] [price]")
 				continue
 			}
-			id := args[1]
-			nama := args[2]
-			var stok int
+			name := args[1]
+			stock, ErrStock := strconv.Atoi(args[2])
+			price, ErrPrice := strconv.Atoi(args[3])
 
-			_, err := fmt.Sscanf(args[3], "%d", &stok)
-			if err != nil {
+			if ErrStock != nil || ErrPrice != nil {
 				fmt.Println("Eror: Stock must be number.")
 				continue
 			}
 
-			err = TambahBarang(db, id, nama, stok)
+			err := AddItems(db, name, stock, price)
 			if err != nil {
 				fmt.Println("Eror: Failed save data.")
 			} else {
 				fmt.Println("Success added item.")
 			}
 
+		case "update":
+			name := args[1]
+			stock, _ := strconv.Atoi(args[2])
+			price, _ := strconv.Atoi(args[3])
+			newName := args[4]
+
+			UpdateDB(db, name, stock, price, newName)
+			fmt.Println("Success update DB")
+
 		case "delete":
-			id := args[1]
-			err := HapusBarang(db, id)
+			name := args[1]
+			err := DeleteItems(db, name)
 			if err != nil {
-				fmt.Printf("error : %v \n", err)
+				fmt.Printf("Error :\n %v \n", err)
 			}
 
 		case "clear":

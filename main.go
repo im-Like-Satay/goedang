@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Goedang v0.0.1")
+	fmt.Println("Goedang v0.1.1")
 	fmt.Println()
 	Shell()
 }

@@ -14,10 +14,12 @@ func InitDB() *sql.DB {
 	}
 
 	queryTabel := `
-	CREATE TABLE IF NOT EXISTS barang (
-		id TEXT PRIMARY KEY,
-		nama TEXT NOT NULL,
-		stok INTEGER NOT NULL
+	CREATE TABLE IF NOT EXISTS items (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT NOT NULL UNIQUE,
+		stock INTEGER NOT NULL,
+		price INTEGER NOT NULL,
+		time_stamp TEXT DEFAULT (DATETIME('now', 'localtime'))
 	);`
 
 	_, err = db.Exec(queryTabel)
